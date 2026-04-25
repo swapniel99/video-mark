@@ -118,6 +118,7 @@
     const video = document.querySelector('video');
     if (!video || !video.duration) return;
 
+    const fragment = document.createDocumentFragment();
     notes.forEach((note) => {
       const pct = (note.time / video.duration) * 100;
       const pip = document.createElement('div');
@@ -132,9 +133,12 @@
         e.stopPropagation();
         video.currentTime = note.time;
       });
+      pip.addEventListener('mouseenter', () => pip.classList.add('scaled'));
+      pip.addEventListener('mouseleave', () => pip.classList.remove('scaled'));
 
-      bar.appendChild(pip);
+      fragment.appendChild(pip);
     });
+    bar.appendChild(fragment);
   }
 
   // --- Popup (Shadow DOM) ---
@@ -766,11 +770,6 @@
 
     loadNotes(videoId, (notes) => renderPips(notes, videoId));
 
-    // Re-render on duration change (SPA nav)
-    video.addEventListener('durationchange', () => {
-      loadNotes(videoId, (notes) => renderPips(notes, videoId));
-    });
-
     document.addEventListener('keydown', (e) => {
       if (e.altKey && (e.key === 'n' || e.code === 'KeyN')) {
         e.preventDefault();
@@ -793,13 +792,16 @@
     setupImportDrop();
   }
 
-  // YouTube is a SPA — observe DOM for player readiness
+  // YouTube is a SPA — observe DOM for player readiness and navigation
+  let lastVideoId = getVideoId();
   const observer = new MutationObserver(() => {
-    if (!initialized) init();
-    // Handle SPA navigation
     const videoId = getVideoId();
-    if (videoId && initialized) {
-      loadNotes(videoId, (notes) => renderPips(notes, videoId));
+    if (!initialized) {
+      init();
+    } else if (videoId && videoId !== lastVideoId) {
+      lastVideoId = videoId;
+      initialized = false;
+      init();
     }
   });
 
