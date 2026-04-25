@@ -358,12 +358,7 @@
     shadow.appendChild(style);
     shadow.appendChild(popup);
 
-    const player = document.querySelector('.ytp-chrome-bottom') || document.querySelector('#movie_player');
-    if (player) {
-      player.appendChild(popupHost);
-    } else {
-      document.body.appendChild(popupHost);
-    }
+    document.body.appendChild(popupHost);
 
     setTimeout(() => textarea.focus(), 50);
   }
@@ -701,9 +696,7 @@
     shadow.appendChild(style);
     shadow.appendChild(popup);
 
-    const player = document.querySelector('.ytp-chrome-bottom') || document.querySelector('#movie_player');
-    if (player) player.appendChild(popupHost);
-    else document.body.appendChild(popupHost);
+    document.body.appendChild(popupHost);
 
     setTimeout(() => textarea.focus(), 50);
   }
