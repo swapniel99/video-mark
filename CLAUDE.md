@@ -16,11 +16,13 @@ Chrome extension for high-precision YouTube video annotations. Adds colored pips
 - Notes stored in chrome.storage.local keyed by videoId
 - Structure: `{ time: number, text: string, color: string }[]`
 
-### Pip Rendering
+### Pip Rendering & Interaction
 - Rendered into `.ytp-progress-list` at `(note.time / duration) * 100` position
 - Width: 3px, height: 100% + 2px overflow
-- Hover proximity detection (12px radius) on progress bar mousemove
+- Click pip → seek video to annotation timestamp
+- Hover proximity detection (12pt radius) on progress bar mousemove
 - Tooltip shows truncated text (max 60 chars) with glassmorphic styling
+- Tooltip is clickable → seek to timestamp, persists with 100ms delay when leaving bar/tooltip
 
 ### UI Components (Shadow DOM)
 - **Add/Edit Popup**: glassmorphic, auto-positioned to viewport edges

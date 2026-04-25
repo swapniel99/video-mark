@@ -25,9 +25,12 @@
   // --- Tooltip ---
 
   let tooltipEl = null;
+  let hideTooltipTimeout = null;
 
   function showTooltip(pip, text, time) {
-    hideTooltip();
+    clearTimeout(hideTooltipTimeout);
+    hideTooltipTimeout = null;
+    if (tooltipEl) tooltipEl.remove();
     tooltipEl = document.createElement('div');
     tooltipEl.style.cssText = `
       position: fixed;
@@ -57,6 +60,12 @@
       if (video) video.currentTime = time;
       hideTooltip();
     });
+    tooltipEl.addEventListener('mouseleave', () => {
+      hideTooltipTimeout = setTimeout(hideTooltip, 100);
+    });
+    tooltipEl.addEventListener('mouseenter', () => {
+      clearTimeout(hideTooltipTimeout);
+    });
     document.body.appendChild(tooltipEl);
 
     const rect = pip.getBoundingClientRect();
@@ -66,12 +75,16 @@
   }
 
   function hideTooltip() {
+    clearTimeout(hideTooltipTimeout);
+    hideTooltipTimeout = null;
     if (tooltipEl) { tooltipEl.remove(); tooltipEl = null; }
   }
 
   function setupPipHover(bar) {
     const HIT = 12; // px radius around pip center
     bar.addEventListener('mousemove', (e) => {
+      clearTimeout(hideTooltipTimeout);
+      hideTooltipTimeout = null;
       const pips = document.querySelectorAll('.videomark-pip');
       let found = null;
       let minDist = HIT;
@@ -86,10 +99,12 @@
         const time = parseFloat(found.dataset.time);
         if (!tooltipEl || tooltipEl.dataset.pipNote !== text) showTooltip(found, text, time);
       } else {
-        hideTooltip();
+        hideTooltipTimeout = setTimeout(hideTooltip, 100);
       }
     });
-    bar.addEventListener('mouseleave', hideTooltip);
+    bar.addEventListener('mouseleave', () => {
+      hideTooltipTimeout = setTimeout(hideTooltip, 100);
+    });
   }
 
   // --- Pip rendering ---

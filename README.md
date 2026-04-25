@@ -19,6 +19,10 @@ Add high-precision, color-coded notes to any YouTube video. Your annotations are
 - Click "Save" or Enter
 - Pip appears on seekbar at current timestamp
 
+### Navigate to Annotation
+- **Click pip** or **click tooltip** → video seeks to that timestamp
+- Tooltip appears when hovering near pip (stays visible briefly when moving to click it)
+
 ### Edit/Delete
 - Hover over pip on seekbar → tooltip shows note
 - Right-click seekbar → "Edit" to modify or "Delete" to remove
