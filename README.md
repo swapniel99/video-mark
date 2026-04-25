@@ -47,14 +47,23 @@ Add high-precision, color-coded notes to any YouTube video. Your annotations are
 
 ## Data
 
-Notes stored in browser's local storage, keyed by video ID. Exported `.videomark` files are plain JSON:
+Notes are stored in the browser's local storage, keyed by video ID. Exported `.videomark` files are plain JSON containing the video ID and the notes array:
 
 ```json
-[
-  { "time": 45.5, "text": "Key moment", "color": "red" },
-  { "time": 120, "text": "Definition", "color": "blue" }
-]
+{
+  "videoId": "lNLmk7CPtOw",
+  "notes": [
+    { "time": 19.86, "text": "Magic trick", "color": "yellow" },
+    { "time": 104.22, "text": "Party crasher", "color": "yellow" }
+  ]
+}
 ```
+
+## Examples
+
+### The Dark Knight - Joker's Best Moments
+- **Video:** [youtube.com/watch?v=lNLmk7CPtOw](https://www.youtube.com/watch?v=lNLmk7CPtOw)
+- **Annotations:** [examples/videomark-lNLmk7CPtOw.videomark](examples/videomark-lNLmk7CPtOw.videomark)
 
 ## Context Menu
 
