@@ -26,7 +26,7 @@
 
   let tooltipEl = null;
 
-  function showTooltip(pip, text) {
+  function showTooltip(pip, text, time) {
     hideTooltip();
     tooltipEl = document.createElement('div');
     tooltipEl.style.cssText = `
@@ -44,13 +44,19 @@
       max-width: 280px;
       word-wrap: break-word;
       white-space: normal;
-      pointer-events: none;
+      cursor: pointer;
       z-index: 999999;
       box-shadow: 0 4px 16px rgba(0,0,0,0.5);
     `;
     const truncated = text.length > 60 ? text.substring(0, 60) + '…' : text;
     tooltipEl.textContent = truncated;
     tooltipEl.dataset.pipNote = text;
+    tooltipEl.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const video = document.querySelector('video');
+      if (video) video.currentTime = time;
+      hideTooltip();
+    });
     document.body.appendChild(tooltipEl);
 
     const rect = pip.getBoundingClientRect();
@@ -77,7 +83,8 @@
       });
       if (found) {
         const text = found.dataset.note;
-        if (!tooltipEl || tooltipEl.dataset.pipNote !== text) showTooltip(found, text);
+        const time = parseFloat(found.dataset.time);
+        if (!tooltipEl || tooltipEl.dataset.pipNote !== text) showTooltip(found, text, time);
       } else {
         hideTooltip();
       }
