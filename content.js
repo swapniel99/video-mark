@@ -110,7 +110,7 @@
   // --- Pip rendering ---
 
   function renderPips(notes, videoId) {
-    const bar = document.querySelector('.ytp-progress-list');
+    const bar = document.querySelector('.ytp-progress-bar');
     if (!bar) return;
 
     document.querySelectorAll('.videomark-pip').forEach((el) => el.remove());
@@ -152,7 +152,7 @@
     popupHost = document.createElement('div');
     popupHost.id = 'videomark-popup-host';
     popupHost.style.cssText = `
-      position: absolute;
+      position: fixed;
       left: ${clampedX}px;
       bottom: 44px;
       z-index: 9999;
@@ -360,7 +360,15 @@
 
     document.body.appendChild(popupHost);
 
-    setTimeout(() => textarea.focus(), 50);
+    setTimeout(() => {
+      const rect = popupHost.getBoundingClientRect();
+      const MARGIN = 10;
+      let finalLeft = clampedX;
+      if (rect.left < MARGIN) finalLeft = MARGIN + 110;
+      else if (rect.right > window.innerWidth - MARGIN) finalLeft = window.innerWidth - MARGIN - 110;
+      popupHost.style.left = `${finalLeft}px`;
+      textarea.focus();
+    }, 50);
   }
 
   function removePopup() {
@@ -584,7 +592,7 @@
     popupHost = document.createElement('div');
     popupHost.id = 'videomark-popup-host';
     popupHost.style.cssText = `
-      position: absolute;
+      position: fixed;
       left: ${clampedX}px;
       bottom: 44px;
       z-index: 9999;
@@ -698,7 +706,15 @@
 
     document.body.appendChild(popupHost);
 
-    setTimeout(() => textarea.focus(), 50);
+    setTimeout(() => {
+      const rect = popupHost.getBoundingClientRect();
+      const MARGIN = 10;
+      let finalLeft = clampedX;
+      if (rect.left < MARGIN) finalLeft = MARGIN + 110;
+      else if (rect.right > window.innerWidth - MARGIN) finalLeft = window.innerWidth - MARGIN - 110;
+      popupHost.style.left = `${finalLeft}px`;
+      textarea.focus();
+    }, 50);
   }
 
   // --- Main init ---
