@@ -726,10 +726,8 @@
     if (initialized) return;
     const bar = document.querySelector('.ytp-progress-bar');
     const video = document.querySelector('video');
-    console.log('[VideoMark] init check — bar:', !!bar, 'video:', !!video);
     if (!bar || !video) return;
     initialized = true;
-    console.log('[VideoMark] initialized');
 
     bar.addEventListener('mousemove', (e) => { lastMouseX = e.clientX; });
     setupPipHover(bar);
@@ -774,18 +772,13 @@
     });
 
     document.addEventListener('keydown', (e) => {
-      console.log('[VideoMark] keydown', e.key, 'alt:', e.altKey);
       if (e.altKey && (e.key === 'n' || e.code === 'KeyN')) {
         e.preventDefault();
-        console.log('[VideoMark] Alt+N triggered');
         const time = video.currentTime ?? getTimeFromMouseX(lastMouseX) ?? 0;
-        console.log('[VideoMark] time:', time, 'videoId:', videoId);
 
         const x = getPopupXFromTime(time);
-        console.log('[VideoMark] popup x:', x);
 
         loadNotes(videoId, (notes) => {
-          console.log('[VideoMark] notes loaded, creating popup');
           createPopup(x, time, videoId, notes, (text, color) => {
             const newNote = { time: parseFloat(time.toFixed(2)), text, color };
             const updated = [...notes, newNote].sort((a, b) => a.time - b.time);
