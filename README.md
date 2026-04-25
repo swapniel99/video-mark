@@ -13,11 +13,12 @@ Add high-precision, color-coded notes to any YouTube video. Your annotations are
 ## Usage
 
 ### Add Annotation
-- Press **Alt+N** (Mac: **Option+N**)
+- **Right-click on seekbar** → click "Add"
 - Type annotation (max 180 chars)
 - Pick color (yellow, red, blue, green, purple)
 - Click "Save" or Enter
 - Pip appears on seekbar at current timestamp
+- **Alternate:** Press **Alt+N** (Mac: **Option+N**) to add at current time
 
 ### Navigate to Annotation
 - **Click pip** or **click tooltip** → video seeks to that timestamp
@@ -55,12 +56,20 @@ Notes stored in browser's local storage, keyed by video ID. Exported `.videomark
 ]
 ```
 
-## Keyboard
+## Context Menu
+
+Right-click on seekbar for quick access:
+- **Add** — Create new annotation
+- **Edit** — Modify existing annotation (hover pip first)
+- **Delete** — Remove annotation
+- **Import** — Load .videomark file
+- **Export** — Save annotations to file
+
+## Keyboard Shortcut
 
 | Shortcut | Action |
 |----------|--------|
-| Alt+N (Mac: Opt+N) | New annotation |
-| Right-click | Context menu (add/edit/delete/import/export) |
+| Alt+N (Mac: Opt+N) | New annotation at current time |
 
 ## Compatibility
 

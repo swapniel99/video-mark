@@ -35,7 +35,8 @@ Chrome extension for high-precision YouTube video annotations. Adds colored pips
   - Gray styling (rgba(255,255,255,0.7)) for Import/Export
 
 ### Keyboard & Events
-- Alt+N for new annotation (Mac uses e.code==='KeyN' not e.key)
+- Right-click context menu primary method for all operations (add/edit/delete/import/export)
+- Alt+N alternate for new annotation (Mac uses e.code==='KeyN' not e.key)
 - Right-click capture phase listener with stopImmediatePropagation
 - Textarea stopPropagation on keydown/up/press to prevent YouTube shortcuts
 - MutationObserver for SPA navigation, durationchange listener for duration updates
