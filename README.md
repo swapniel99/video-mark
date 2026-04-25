@@ -2,6 +2,10 @@
 
 Add high-precision, color-coded notes to any YouTube video. Your annotations are saved locally per video.
 
+## Demo Video
+
+[![VideoMark Demo](https://img.youtube.com/vi/4yyaPqQj60Q/0.jpg)](https://www.youtube.com/watch?v=4yyaPqQj60Q)
+
 ## Install
 
 1. Download/clone this repo
