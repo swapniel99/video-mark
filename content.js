@@ -236,6 +236,14 @@
         font-size: 11px;
         padding: 4px 10px;
       }
+      .char-count {
+        font-size: 10px;
+        color: rgba(255,255,255,0.35);
+        text-align: right;
+        margin-top: 2px;
+        font-weight: 500;
+      }
+      .char-count.warning { color: rgba(244,67,54,0.7); }
       .divider {
         height: 1px;
         background: rgba(255,255,255,0.08);
@@ -283,11 +291,6 @@
     const actions = document.createElement('div');
     actions.className = 'actions';
 
-    const exportBtn = document.createElement('button');
-    exportBtn.className = 'export-btn';
-    exportBtn.textContent = 'Export';
-    exportBtn.addEventListener('click', () => exportNotes(videoId, notes));
-
     const cancelBtn = document.createElement('button');
     cancelBtn.className = 'cancel';
     cancelBtn.textContent = 'Cancel';
@@ -322,7 +325,6 @@
       });
     });
 
-    actions.appendChild(exportBtn);
     actions.appendChild(cancelBtn);
     actions.appendChild(saveBtn);
 
@@ -378,7 +380,7 @@
 
   function mergNotes(existing, incoming) {
     const map = new Map(existing.map((n) => [n.time, n]));
-    incoming.forEach((n) => { if (!map.has(n.time)) map.set(n.time, n); });
+    incoming.forEach((n) => map.set(n.time, n)); // overwrite on duplicate
     return [...map.values()].sort((a, b) => a.time - b.time);
   }
 
@@ -496,6 +498,41 @@
         renderPips(updated, videoId);
       }));
     }
+
+    const sep2 = document.createElement('div');
+    sep2.style.cssText = 'border-top:1px solid rgba(255,255,255,0.08);margin:4px 0;';
+    contextMenuEl.appendChild(sep2);
+
+    contextMenuEl.appendChild(mkItem('Import annotations', 'rgba(255,255,255,0.7)', () => {
+      removeContextMenu();
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.videomark';
+      input.addEventListener('change', (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          try {
+            const imported = JSON.parse(ev.target.result);
+            if (!imported.videoId || !Array.isArray(imported.notes)) return;
+            loadNotes(imported.videoId, (existing) => {
+              const merged = mergNotes(existing, imported.notes);
+              saveNotes(imported.videoId, merged);
+              const vid = document.querySelector('video');
+              if (vid) renderPips(merged, imported.videoId);
+            });
+          } catch (_) {}
+        };
+        reader.readAsText(file);
+      });
+      input.click();
+    }));
+
+    contextMenuEl.appendChild(mkItem('Export annotations', 'rgba(255,255,255,0.7)', () => {
+      removeContextMenu();
+      exportNotes(videoId, notes);
+    }));
 
     document.body.appendChild(contextMenuEl);
 
